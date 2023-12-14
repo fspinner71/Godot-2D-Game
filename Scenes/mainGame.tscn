@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://bnu4knviffbqy"]
+
+[ext_resource type="Texture2D" uid="uid://cafk1pkaovegr" path="res://icon.svg" id="1_5oebj"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2x8rv"]
+radius = 63.0
+height = 126.0
+
+[sub_resource type="TileSet" id="TileSet_dji5m"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+position = Vector2(550, 250)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+shape = SubResource("CapsuleShape2D_2x8rv")
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
+texture = ExtResource("1_5oebj")
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_dji5m")
+format = 2
