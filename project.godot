@@ -22,3 +22,4 @@ project/assembly_name="Platformer"
 [rendering]
 
 renderer/rendering_method="mobile"
+anti_aliasing/screen_space_roughness_limiter/enabled=false

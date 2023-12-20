@@ -1,9 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://bnu4knviffbqy"]
+[gd_scene load_steps=5 format=3 uid="uid://bnu4knviffbqy"]
 
-[ext_resource type="Texture2D" uid="uid://cafk1pkaovegr" path="res://icon.svg" id="1_5oebj"]
+[ext_resource type="Texture2D" uid="uid://bmd45pbb4nu8f" path="res://Characters/Main/Sprites/Sprite.png" id="1_485o7"]
+[ext_resource type="Script" path="res://Characters/Main/Character.gd" id="1_pc8gn"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2x8rv"]
-radius = 63.0
+radius = 20.0
 height = 126.0
 
 [sub_resource type="TileSet" id="TileSet_dji5m"]
@@ -12,12 +13,15 @@ height = 126.0
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
 position = Vector2(550, 250)
+script = ExtResource("1_pc8gn")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
 shape = SubResource("CapsuleShape2D_2x8rv")
 
 [node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
-texture = ExtResource("1_5oebj")
+texture_filter = 1
+scale = Vector2(4.375, 4.375)
+texture = ExtResource("1_485o7")
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_dji5m")
