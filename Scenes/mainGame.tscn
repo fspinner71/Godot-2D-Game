@@ -1,8 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://bnu4knviffbqy"]
+[gd_scene load_steps=9 format=3 uid="uid://bnu4knviffbqy"]
 
 [ext_resource type="Texture2D" uid="uid://bmd45pbb4nu8f" path="res://Characters/Main/Sprites/Sprite.png" id="1_485o7"]
-[ext_resource type="Script" path="res://Characters/Main/Scripts/CharacterController.cs" id="1_fjg0c"]
 [ext_resource type="Texture2D" uid="uid://cgigslwyjq3fd" path="res://Maps/TestingMap/Tileset.png" id="3_co10d"]
+[ext_resource type="Script" path="res://Characters/Main/Scripts/States/StateMachine.cs" id="3_nyu2q"]
+[ext_resource type="Script" path="res://Characters/Main/Scripts/States/InAir.cs" id="4_5ggan"]
+[ext_resource type="Script" path="res://Characters/Main/Scripts/States/Idle.cs" id="4_gukmf"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2x8rv"]
 radius = 6.0
@@ -119,9 +121,16 @@ sources/0 = SubResource("TileSetAtlasSource_4ueh0")
 
 [node name="Node2D" type="Node2D"]
 
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="StateText" type="RichTextLabel" parent="UI"]
+texture_filter = 1
+offset_right = 115.0
+offset_bottom = 67.0
+text = "ssfsdf"
+
 [node name="Character" type="CharacterBody2D" parent="."]
 position = Vector2(219, 124)
-script = ExtResource("1_fjg0c")
 
 [node name="Collider" type="CollisionShape2D" parent="Character"]
 shape = SubResource("CapsuleShape2D_2x8rv")
@@ -131,6 +140,16 @@ texture_filter = 1
 texture = ExtResource("1_485o7")
 
 [node name="Camera" type="Camera2D" parent="Character"]
+
+[node name="StateMachine" type="Node" parent="Character"]
+script = ExtResource("3_nyu2q")
+initialState = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="Character/StateMachine"]
+script = ExtResource("4_gukmf")
+
+[node name="InAir" type="Node" parent="Character/StateMachine"]
+script = ExtResource("4_5ggan")
 
 [node name="TileMap" type="TileMap" parent="."]
 texture_filter = 1
