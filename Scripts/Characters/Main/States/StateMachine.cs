@@ -8,8 +8,6 @@ public partial class StateMachine : Node
 	[Export] public NodePath initialState;
 	private Dictionary<string, State> states;
 	private State currState;
-	
-	private RichTextLabel text;
 
 	public void changeState(string key)
 	{
@@ -21,7 +19,6 @@ public partial class StateMachine : Node
 		currState.exit();
 		currState = states[key];
 		currState.enter();
-		text.Text = "Current State:\n" + currState.Name;
 	}
 	public override void _Ready()
 	{
@@ -36,9 +33,6 @@ public partial class StateMachine : Node
 		}
 		currState = GetNode<State>(initialState);
 		currState.enter();
-
-		text = GetParent().GetParent().GetNode("UI").GetNode<RichTextLabel>("StateText");
-		text.Text = "Current State:\n" + currState.Name;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
