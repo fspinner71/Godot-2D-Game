@@ -1,12 +1,16 @@
 using Godot;
 using System;
-
-public partial class Idle : State
+public partial class PlayerRunning : State
 {
 	public const float Speed = 300.0f;
 	public const float TimeToMax = 0.3f;
 	public const float TimeToZero = 0.2f;
 	public const float JumpVelocity = -400.0f;
+
+	public override void enter()
+	{
+		sprite.Play("Run");
+	}
 
     public override void physicsprocess(double delta)
     {
@@ -16,6 +20,12 @@ public partial class Idle : State
 			return;
 		}
    		Vector2 velocity = character.Velocity;
+
+		if(velocity.X == 0.0f)
+		{
+			stateMachine.changeState("Idle");
+			return;
+		}
 		
 		if (Input.IsActionJustPressed("move_up"))
 		{
@@ -47,9 +57,11 @@ public partial class Idle : State
 			if (velocity.X < 0)
 			{
 				sprite.FlipH = true;
+				HitBoxes.Scale = new Vector2(-1, 1);
 			} else if (velocity.X > 0)
 			{
 				sprite.FlipH = false;
+				HitBoxes.Scale = new Vector2(1, 1);
 			}
 		}
 		else

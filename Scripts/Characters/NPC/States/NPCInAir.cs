@@ -1,7 +1,7 @@
- using Godot;
+using Godot;
 using System;
 
-public partial class InAir : State
+public partial class NPCInAir : State
 {
 	public const float Speed = 200.0f;
 	public const float TimeToMax = 0.5f;
@@ -17,16 +17,10 @@ public partial class InAir : State
 			return;
 		}
 		Vector2 velocity = character.Velocity;
-
-		if (Input.IsActionJustPressed("move_up") && !hasDoubleJumped)
-		{
-			velocity.Y = DoubleJumpVelocity;
-			hasDoubleJumped = true;
-		}
 		
 		velocity.Y += gravity * (float)delta;
 
-		Vector2 direction = Input.GetVector("move_left", "move_right", "move_up", "move_down");
+		Vector2 direction = Vector2.Zero;
 		if (direction != Vector2.Zero)
 		{
 			velocity.X += Speed / TimeToMax * direction.X * (float) delta;

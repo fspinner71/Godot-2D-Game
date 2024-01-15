@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class None : State
+public partial class PlayerNone : State
 {
     public override void enter()
     {

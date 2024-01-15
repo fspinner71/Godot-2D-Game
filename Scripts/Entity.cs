@@ -1,56 +1,52 @@
 using Godot;
 using System;
 
-public partial class Character : CharacterBody2D
+public partial class Entity : CharacterBody2D
 {
 	[Export] public float MaxHealth;
 	[Export] public float respawnTime;
 	[Export] public Vector2 spawnPosition;
 	public float Health;
 
-	private StateMachine stateMachine;
+	public StateMachine stateMachine;
+	public HurtBox hurtBox;
 
-	private CanvasLayer UI;
-	private HealthBar healthBar;
-
-	public void changeHealth(float changeBy)
+	public virtual void changeHealth(float changeBy)
 	{
 		Health += changeBy;
 		if (Health <= 0.0f)
 		{
 			Health = 0;
+			Die();
 		} else if (Health > MaxHealth)
 		{
 			Health = MaxHealth;
 		}
-
-		healthBar.updateHealth(Health/MaxHealth);
-
-		if (Health <= 0.0f)
-		{
-			Die();
-		}
 	}
 
-	public void Spawn()
+	public virtual void Spawn()
 	{
 		changeHealth(MaxHealth);
+		hurtBox.Toggle(true);
 		Position = spawnPosition;
 		stateMachine.changeState("Idle");
 	}
-	public async void Die()
+	public virtual async void Die()
 	{
-		Health = 0;
+		hurtBox.Toggle(false);
 		stateMachine.changeState("None");
 		await ToSignal(GetTree().CreateTimer((double)respawnTime), "timeout");
 		Spawn();
 	}
 
-    public override void _Ready()
+	public void applyKnockback(Vector2 vec)
+	{
+		Velocity += vec;
+	}
+	public override void _Ready()
     {
 		stateMachine = GetNode<StateMachine>("StateMachine");
-		UI = GetParent().GetNode<CanvasLayer>("UI");
-		healthBar = UI.GetNode<HealthBar>("HealthBar");
+		hurtBox = GetNode<HurtBox>("HurtBox");
 
 		Spawn();
     }

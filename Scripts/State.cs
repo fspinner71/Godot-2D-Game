@@ -4,14 +4,16 @@ using System;
 public abstract partial class State : Node
 {
     public CharacterBody2D character;
-	public Sprite2D sprite;
+	public AnimatedSprite2D sprite;
+    public Node2D HitBoxes;
     public StateMachine stateMachine;
 
     public override void _Ready()
     {
         stateMachine = GetParent<StateMachine>();
         character = GetParent().GetParent<CharacterBody2D>();
-		sprite = character.GetNode<Sprite2D>("Sprite");
+		sprite = character.GetNode<AnimatedSprite2D>("Sprite");
+        HitBoxes = character.GetNode<Node2D>("HitBoxes");
     }
     public virtual void ready(){}
     public virtual void enter(){}

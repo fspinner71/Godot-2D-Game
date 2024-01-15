@@ -1,0 +1,113 @@
+[gd_scene load_steps=17 format=3 uid="uid://doddqhcu47tbj"]
+
+[ext_resource type="Script" path="res://Scripts/Characters/NPC/NPC.cs" id="1_j6jn1"]
+[ext_resource type="Script" path="res://Scripts/StateMachine.cs" id="3_jsjdu"]
+[ext_resource type="Script" path="res://Scripts/Characters/NPC/States/NPCIdle.cs" id="4_cy5ox"]
+[ext_resource type="Script" path="res://Scripts/Characters/NPC/States/NPCInAir.cs" id="5_2rwmc"]
+[ext_resource type="Script" path="res://Scripts/Characters/NPC/States/NPCNone.cs" id="6_rfy5w"]
+[ext_resource type="Script" path="res://Scripts/HurtBox.cs" id="7_sgifv"]
+[ext_resource type="Texture2D" uid="uid://bncmvsrb1qs8d" path="res://Assets/Characters/Main/Sprites/idle.png" id="7_vha5c"]
+[ext_resource type="PackedScene" uid="uid://cjy1qsg31rnn0" path="res://Scenes/NPCHealthBar.tscn" id="8_b6vho"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7edox"]
+atlas = ExtResource("7_vha5c")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bpe67"]
+atlas = ExtResource("7_vha5c")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7bcst"]
+atlas = ExtResource("7_vha5c")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_18uhp"]
+atlas = ExtResource("7_vha5c")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p2gfh"]
+atlas = ExtResource("7_vha5c")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2s30g"]
+atlas = ExtResource("7_vha5c")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_deoww"]
+animations = [{
+"frames": [{
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_7edox")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bpe67")
+}, {
+"duration": 5.0,
+"texture": SubResource("AtlasTexture_7bcst")
+}, {
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_18uhp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p2gfh")
+}, {
+"duration": 5.0,
+"texture": SubResource("AtlasTexture_2s30g")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 12.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2x8rv"]
+radius = 4.0
+height = 24.0
+
+[node name="Dummy" type="CharacterBody2D"]
+position = Vector2(225, 125)
+collision_layer = 8
+script = ExtResource("1_j6jn1")
+MaxHealth = 100.0
+respawnTime = 0.5
+spawnPosition = Vector2(225, 125)
+
+[node name="Camera" type="Camera2D" parent="."]
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("3_jsjdu")
+initialState = NodePath("None")
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("4_cy5ox")
+
+[node name="InAir" type="Node" parent="StateMachine"]
+script = ExtResource("5_2rwmc")
+
+[node name="None" type="Node" parent="StateMachine"]
+script = ExtResource("6_rfy5w")
+
+[node name="HealthBar" parent="." instance=ExtResource("8_b6vho")]
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_deoww")
+animation = &"Idle"
+autoplay = "Idle"
+
+[node name="Collider" type="CollisionShape2D" parent="."]
+position = Vector2(0, 4)
+shape = SubResource("CapsuleShape2D_2x8rv")
+
+[node name="HurtBox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+monitorable = false
+script = ExtResource("7_sgifv")
+
+[node name="Collider" type="CollisionShape2D" parent="HurtBox"]
+position = Vector2(0, 4)
+shape = SubResource("CapsuleShape2D_2x8rv")
+
+[node name="HitBoxes" type="Node2D" parent="."]
+
+[connection signal="area_entered" from="HurtBox" to="HurtBox" method="onAreaEntered"]
