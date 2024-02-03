@@ -51,12 +51,34 @@ public partial class PlayerInAir : State
 			}
 		}
 
+		if (velocity.Y > 0)
+		{
+			if (sprite.Animation != "DirFall")
+			{
+				sprite.Play("DirFall");
+			}
+		} else if(velocity.Y < 0)
+		{
+			if(velocity.X > 0 || velocity.X < 0)
+			{
+				if (sprite.Animation != "UpH")
+				{
+					sprite.Play("UpH");
+				}
+			} else
+			{
+				if (sprite.Animation != "UpV")
+				{
+					sprite.Play("UpV");
+				}
+			}
+		}
+
 		character.Velocity = velocity;
 		character.MoveAndSlide();
     }
 	public override void enter()
 	{
 		hasDoubleJumped = false;
-		sprite.Play("DirFall");
 	}
 }

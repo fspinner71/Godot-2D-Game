@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://bnu4knviffbqy"]
+[gd_scene load_steps=44 format=3 uid="uid://bnu4knviffbqy"]
 
 [ext_resource type="Script" path="res://Scripts/HealthBar.cs" id="1_3o26d"]
 [ext_resource type="Texture2D" uid="uid://ddl4vitrcedgu" path="res://Assets/UI/GameUI/HealthBarBG.png" id="1_k8tj4"]
@@ -18,6 +18,8 @@
 [ext_resource type="Texture2D" uid="uid://b6jykoj1iaam7" path="res://Assets/Characters/Main/Sprites/dirfall.png" id="14_au1tl"]
 [ext_resource type="Texture2D" uid="uid://dh050nk6m7tab" path="res://Assets/Characters/Main/Sprites/run.png" id="14_scnrh"]
 [ext_resource type="PackedScene" uid="uid://doddqhcu47tbj" path="res://Scenes/Dummy.tscn" id="15_sm0oo"]
+[ext_resource type="Texture2D" uid="uid://bg2uqu5pdf4r4" path="res://Assets/Characters/Main/Sprites/UpV.png" id="17_57gl3"]
+[ext_resource type="Texture2D" uid="uid://dke87tly2tqja" path="res://Assets/Characters/Main/Sprites/UpH.png" id="17_sqbc8"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2x8rv"]
 radius = 4.0
@@ -82,6 +84,22 @@ region = Rect2(128, 0, 32, 32)
 atlas = ExtResource("14_scnrh")
 region = Rect2(160, 0, 32, 32)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_w3wr2"]
+atlas = ExtResource("17_sqbc8")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8p47a"]
+atlas = ExtResource("17_sqbc8")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_600b4"]
+atlas = ExtResource("17_57gl3")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p3frh"]
+atlas = ExtResource("17_57gl3")
+region = Rect2(32, 0, 32, 32)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_vxedo"]
 animations = [{
 "frames": [{
@@ -140,6 +158,28 @@ animations = [{
 "loop": true,
 "name": &"Run",
 "speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w3wr2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8p47a")
+}],
+"loop": true,
+"name": &"UpH",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_600b4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p3frh")
+}],
+"loop": true,
+"name": &"UpV",
+"speed": 5.0
 }]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4ueh0"]
@@ -345,7 +385,7 @@ collision_mask = 4
 monitoring = false
 monitorable = false
 script = ExtResource("9_gusfa")
-Damage = 50.0
+Damage = 20.0
 Source = NodePath("..")
 Knockback = Vector2(100, -50)
 
@@ -360,10 +400,10 @@ shape = SubResource("CapsuleShape2D_2x8rv")
 [node name="Sprite" type="AnimatedSprite2D" parent="Player"]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_vxedo")
-animation = &"Idle"
+animation = &"UpH"
 autoplay = "Idle"
-frame = 4
-frame_progress = 0.447439
+frame = 1
+frame_progress = 0.139168
 
 [node name="TileMap" type="TileMap" parent="."]
 texture_filter = 1
